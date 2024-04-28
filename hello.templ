@@ -1,5 +1,13 @@
 package main
 
+templ head() {
+	<head>
+		<title>Kango</title>
+		<meta charset="utf-8"/>
+		<script src="https://unpkg.com/htmx.org@1.9.11"></script>
+	</head>
+}
+
 templ hello(name string) {
 	<div>
 		Hello, { name }! Dies ist eine Änderung. Mit mehr Zeug. Und noch einer Änderung.
@@ -7,8 +15,22 @@ templ hello(name string) {
 	</div>
 }
 
-templ welcome(name string) {
-	<body>
+templ mainPage(name string) {
+	@fullHtml() {
 		@hello(name)
+	}
+}
+
+templ fullHtml() {
+	@head()
+	<body>
+		{ children... }
+	</body>
+}
+
+templ htmlWrapper(contents templ.Component) {
+	@head()
+	<body>
+		@contents
 	</body>
 }

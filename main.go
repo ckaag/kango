@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	component := welcome("John")
+	component := mainPage("John")
 
 	http.Handle("/", templ.Handler(component))
 
