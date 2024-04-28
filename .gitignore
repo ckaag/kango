@@ -2,3 +2,10 @@ TODO.md
 DONE.md
 *_templ.go
 *_templ.txt
+
+db.go
+models.go
+query.sql.go
+
+.development.local.db
+kango.exe

@@ -15,9 +15,14 @@ templ hello(name string) {
 	</div>
 }
 
-templ mainPage(name string) {
+templ clickCounter(counter string) {
+	<button hx-post="/counter/increment" hx-swap="outerHTML">Dieser Button wurde bereits { counter } mal gedrückt.</button>
+}
+
+templ mainPage(name string, counter string) {
 	@fullHtml() {
 		@hello(name)
+		@clickCounter(counter)
 	}
 }
 
