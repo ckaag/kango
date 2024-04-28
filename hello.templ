@@ -1,0 +1,14 @@
+package main
+
+templ hello(name string) {
+	<div>
+		Hello, { name }! Dies ist eine Änderung. Mit mehr Zeug. Und noch einer Änderung.
+		So funktioniert Hot Reload korrekt. Auch jetzt nochmal.
+	</div>
+}
+
+templ welcome(name string) {
+	<body>
+		@hello(name)
+	</body>
+}
