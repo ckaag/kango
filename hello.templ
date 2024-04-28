@@ -1,5 +1,10 @@
 package main
 
+import (
+	"kanco/kango/tutorial"
+	"strconv"
+)
+
 templ head() {
 	<head>
 		<title>Kango</title>
@@ -19,10 +24,12 @@ templ clickCounter(counter string) {
 	<button hx-post="/counter/increment" hx-swap="outerHTML">Dieser Button wurde bereits { counter } mal gedrückt.</button>
 }
 
-templ mainPage(name string, counter string) {
+templ mainPage(name string, counter string, projects []tutorial.Project) {
 	@fullHtml() {
 		@hello(name)
 		@clickCounter(counter)
+		<hr/>
+		@projectCrud(projects)
 	}
 }
 
@@ -38,4 +45,53 @@ templ htmlWrapper(contents templ.Component) {
 	<body>
 		@contents
 	</body>
+}
+
+templ projectCreation() {
+	<form
+		hx-post="/projects/add"
+		hx-target="#project-crud"
+		hx-swap="outerHTML"
+	>
+		<label>New Project</label>
+		<input name="title" type="text" required="true"/>
+		<button type="submit">Submit</button>
+	</form>
+}
+
+templ projectTable(projects []tutorial.Project) {
+	<table class="table table-dark">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Parent</th>
+				<th scope="col">Name</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, project := range projects {
+				<tr>
+					<th scope="row">{ strconv.FormatInt(project.ID, 10) }</th>
+					<td>{ strconv.FormatInt(project.ParentID.Int64, 10) }</td>
+					<td>{ project.Name }</td>
+					<td>
+						<button
+							hx-post={ "/projects/" + strconv.FormatInt(project.ID, 10) + "/delete" }
+							hx-target="#project-crud"
+							hx-swap="outerHTML"
+						>Delete</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+templ projectCrud(projects []tutorial.Project) {
+	<div id="project-crud">
+		<h2>Projects</h2>
+		@projectCreation()
+		@projectTable(projects)
+	</div>
 }

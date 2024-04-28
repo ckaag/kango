@@ -31,3 +31,12 @@ RETURNING "counter";
 SELECT CAST(COALESCE(MAX("counter"), 0) as INTEGER)
 FROM counters
 WHERE "name" = ?;
+-- name: GetListOfProjects :many
+SELECT *
+FROM projects;
+-- name: AddProject :exec
+INSERT INTO projects("name")
+VALUES (?);
+-- name: DeleteProject :exec
+DELETE FROM projects
+WHERE id = ?;
